@@ -25,16 +25,20 @@ def login_as_admin(con, username, passw):
     :param passw: Password
     :return: 1
     """
-    cur = con.cursor()
-    cur.execute("SELECT * FROM Admin where Username=? AND Password=?", (username, passw))
+    try:
+        cur = con.cursor()
+        cur.execute("SELECT * FROM Admin where Username=? AND Password=?", (username, passw))
 
-    row = cur.fetchone()
-    if row is None:
-        print('Please enter correct data')
-    else:
-        b = Menu()
-        b.admin_menu(con, row[0])
-    return 1
+        row = cur.fetchone()
+        if row is None:
+            print('Please enter correct data')
+        else:
+            b = Menu()
+            b.admin_menu(con, row[0])
+        return True
+    except sqlite3.Error as e:
+        print(e)
+        return False
 
 
 def login_as_employee(con, username, passw):
@@ -45,16 +49,20 @@ def login_as_employee(con, username, passw):
     :param passw: password string
     :return: 1
     """
-    cur = con.cursor()
-    cur.execute("SELECT * FROM Employee where Username=? AND Password=?", (username, passw))
+    try:
+        cur = con.cursor()
+        cur.execute("SELECT * FROM Employee where Username=? AND Password=?", (username, passw))
 
-    row = cur.fetchone()
-    if row is None:
-        print('Please enter correct data')
-    else:
-        m = Menu()
-        m.employee_menu(con, row[0])
-    return 1
+        row = cur.fetchone()
+        if row is None:
+            print('Please enter correct data')
+        else:
+            m = Menu()
+            m.employee_menu(con, row[0])
+        return True
+    except sqlite3.Error as e:
+        print(e)
+        return False
 
 
 if __name__ == '__main__':
