@@ -76,7 +76,7 @@ class TestAdminDatabase(unittest.TestCase):
         mockconnection = mock.Mock()
         mockconnection.cursor().commit.side_effect = True
         test_class = AdminToDatabase(mockconnection, 1)
-        r = test_class.update_employee_pasword('username', 1)
+        r = test_class.update_employee_email('username', 1)
         assert r is True
 
     @mock.patch('sqlite3.connect')
@@ -84,7 +84,7 @@ class TestAdminDatabase(unittest.TestCase):
         mockconnection = mock.Mock()
         mockconnection.cursor().execute.side_effect = sqlite3.Error
         test_class = AdminToDatabase(mockconnection, 1)
-        r = test_class.update_employee_pasword('username', 1)
+        r = test_class.update_employee_email('username', 1)
         assert r is False
 
     @mock.patch('sqlite3.connect')
@@ -119,3 +119,162 @@ class TestAdminDatabase(unittest.TestCase):
         r = test_class.get_all_cab_routes_and_timing()
         assert r is False
 
+    @mock.patch('sqlite3.connect')
+    def test_insert_new_cab_route(self, mockconnection):
+        mockconnection = mock.Mock()
+        mockconnection.cursor().commit.side_effect = [True]
+        test_class = AdminToDatabase(mockconnection, 1)
+        r = test_class.insert_new_cab_route(1, 'source', 'destination')
+        assert r is True
+
+    @mock.patch('sqlite3.connect')
+    def test_insert_new_cab_route_error(self, mockconnection):
+        mockconnection = mock.Mock()
+        mockconnection.cursor().execute.side_effect = sqlite3.Error
+        test_class = AdminToDatabase(mockconnection, 1)
+        r = test_class.insert_new_cab_route(1, 'source', 'destination')
+        assert r is False
+
+    @mock.patch('sqlite3.connect')
+    def test_get_total_bookings_month(self, mockconnection):
+        mockconnection = mock.Mock()
+        mockconnection.cursor().fetchone.side_effect = [True]
+        test_class = AdminToDatabase(mockconnection, 1)
+        r = test_class.get_total_bookings_month('Jan')
+        assert r is True
+
+    @mock.patch('sqlite3.connect')
+    def test_get_total_bookings_month_error(self, mockconnection):
+        mockconnection = mock.Mock()
+        mockconnection.cursor().execute.side_effect = sqlite3.Error
+        test_class = AdminToDatabase(mockconnection, 1)
+        r = test_class.get_total_bookings_month('Jan')
+        assert r is False
+
+    @mock.patch('sqlite3.connect')
+    def test_get_total_bookings_date(self, mockconnection):
+        mockconnection = mock.Mock()
+        mockconnection.cursor().fetchone.side_effect = [True]
+        test_class = AdminToDatabase(mockconnection, 1)
+        r = test_class.get_total_bookings_date('12-02-2020')
+        assert r is True
+
+    @mock.patch('sqlite3.connect')
+    def test_get_total_bookings_date_error(self, mockconnection):
+        mockconnection = mock.Mock()
+        mockconnection.cursor().execute.side_effect = sqlite3.Error
+        test_class = AdminToDatabase(mockconnection, 1)
+        r = test_class.get_total_bookings_date('12-02-2020')
+        assert r is False
+
+    @mock.patch('sqlite3.connect')
+    def test_get_total_bookings_week(self, mockconnection):
+        mockconnection = mock.Mock()
+        mockconnection.cursor().fetchone.side_effect = [True]
+        test_class = AdminToDatabase(mockconnection, 1)
+        r = test_class.get_total_bookings_week(1)
+        assert r is True
+
+    @mock.patch('sqlite3.connect')
+    def test_get_total_bookings_week_error(self, mockconnection):
+        mockconnection = mock.Mock()
+        mockconnection.cursor().execute.side_effect = sqlite3.Error
+        test_class = AdminToDatabase(mockconnection, 1)
+        r = test_class.get_total_bookings_week(1)
+        assert r is False
+
+    @mock.patch('sqlite3.connect')
+    def test_get_all_employees(self, mockconnection):
+        mockconnection = mock.Mock()
+        mockconnection.cursor().fetchall.side_effect = [True]
+        test_class = AdminToDatabase(mockconnection, 1)
+        r = test_class.get_all_employees()
+        assert r is True
+
+    @mock.patch('sqlite3.connect')
+    def test_get_all_employees_error(self, mockconnection):
+        mockconnection = mock.Mock()
+        mockconnection.cursor().execute.side_effect = sqlite3.Error
+        test_class = AdminToDatabase(mockconnection, 1)
+        r = test_class.get_all_employees()
+        assert r is False
+
+    @mock.patch('sqlite3.connect')
+    def test_get_employee_booking_details(self, mockconnection):
+        mockconnection = mock.Mock()
+        mockconnection.cursor().fetchall.side_effect = [True]
+        test_class = AdminToDatabase(mockconnection, 1)
+        r = test_class.get_employee_booking_details(1)
+        assert r is True
+
+    @mock.patch('sqlite3.connect')
+    def test_get_employee_booking_details_error(self, mockconnection):
+        mockconnection = mock.Mock()
+        mockconnection.cursor().execute.side_effect = sqlite3.Error
+        test_class = AdminToDatabase(mockconnection, 1)
+        r = test_class.get_employee_booking_details(1)
+        assert r is False
+
+    @mock.patch('sqlite3.connect')
+    def test_insert_cab_timings(self, mockconnection):
+        mockconnection = mock.Mock()
+        mockconnection.cursor().commit.side_effect = [True]
+        test_class = AdminToDatabase(mockconnection, 1)
+        r = test_class.insert_cab_timings('xyz123', '12:00')
+        assert r is True
+
+    @mock.patch('sqlite3.connect')
+    def test_insert_cab_timings_error(self, mockconnection):
+        mockconnection = mock.Mock()
+        mockconnection.cursor().execute.side_effect = sqlite3.Error
+        test_class = AdminToDatabase(mockconnection, 1)
+        r = test_class.insert_cab_timings('xyz123', '12:00')
+        assert r is False
+
+    @mock.patch('sqlite3.connect')
+    def test_update_cab_timing(self, mockconnection):
+        mockconnection = mock.Mock()
+        mockconnection.cursor().commit.side_effect = [True]
+        test_class = AdminToDatabase(mockconnection, 1)
+        r = test_class.update_cab_timing(1, '12:00')
+        assert r is True
+
+    @mock.patch('sqlite3.connect')
+    def test_update_cab_timing_error(self, mockconnection):
+        mockconnection = mock.Mock()
+        mockconnection.cursor().execute.side_effect = sqlite3.Error
+        test_class = AdminToDatabase(mockconnection, 1)
+        r = test_class.update_cab_timing(1, '12:00')
+        assert r is False
+
+    @mock.patch('sqlite3.connect')
+    def test_update_cab_route(self, mockconnection):
+        mockconnection = mock.Mock()
+        mockconnection.cursor().commit.side_effect = [True]
+        test_class = AdminToDatabase(mockconnection, 1)
+        r = test_class.update_cab_route('source', 'destination', 1)
+        assert r is True
+
+    @mock.patch('sqlite3.connect')
+    def test_update_cab_route_error(self, mockconnection):
+        mockconnection = mock.Mock()
+        mockconnection.cursor().execute.side_effect = sqlite3.Error
+        test_class = AdminToDatabase(mockconnection, 1)
+        r = test_class.update_cab_route('source', 'destination', 1)
+        assert r is False
+
+    @mock.patch('sqlite3.connect')
+    def test_get_all_cab_ids(self, mockconnection):
+        mockconnection = mock.Mock()
+        mockconnection.cursor().fetchall.side_effect = [True]
+        test_class = AdminToDatabase(mockconnection, 1)
+        r = test_class.get_all_cab_ids(1)
+        assert r is True
+
+    @mock.patch('sqlite3.connect')
+    def test_get_all_cab_ids_error(self, mockconnection):
+        mockconnection = mock.Mock()
+        mockconnection.cursor().execute.side_effect = sqlite3.Error
+        test_class = AdminToDatabase(mockconnection, 1)
+        r = test_class.get_all_cab_ids(1)
+        assert r is False
