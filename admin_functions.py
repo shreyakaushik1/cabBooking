@@ -169,9 +169,10 @@ class Admin(object):
                     final_dest = builtins.input("Is this the Final destination?(True/False) ")
                     if final_dest != "True":
                         source = dest
+                return True
             else:
                 print("Please enter correct number")
-            return True
+                return False
         else:
             print("No cab routes available")
             return False
@@ -185,15 +186,16 @@ class Admin(object):
         password = builtins.input("Please Enter the password for the new employee: ")
         name = builtins.input("Please Enter the name of the new employee: ")
         email = builtins.input("Please Enter the email of the new employee: ")
-        self.admin_db.create_new_employee(username, password, name, email)
+        create_new_employee = self.admin_db.create_new_employee(username, password, name, email)
+        return create_new_employee
 
     def number_6(self):
         """
             function to update an employee's details
         :return: True if executed successfully else False
         """
-        self.admin_db.get_all_employees()
-        self.show_employee_details()
+        rows = self.admin_db.get_all_employees()
+        self.show_employee_details(rows)
         emp_id = builtins.input("Please Enter the employee id of the Employee: ")
         print("Following are the things you can update: ")
         print("1. Username")
@@ -216,16 +218,21 @@ class Admin(object):
         else:
             print("Please enter correct number")
 
-
     def number_7(self):
         """
             function to delete an employee
         :return: True if executed successfully else False
         """
-        self.admin_db.get_all_employees()
-        self.show_employee_details()
-        emp_id = builtins.input("Please enter the employee id: ")
-        y = builtins.input("Are you sure?(Y?N) The Employee will be permanently deleted. ")
-        if y == 'Y' or y == 'y':
-            self.admin_db.delete_employee(int(emp_id))
+        rows = self.admin_db.get_all_employees()
+        if rows:
+            self.show_employee_details(rows)
+            emp_id = builtins.input("Please enter the employee id: ")
+            y = builtins.input("Are you sure?(Y?N) The Employee will be permanently deleted. ")
+            if y == 'Y' or y == 'y':
+                delete_employee = self.admin_db.delete_employee(int(emp_id))
+                return delete_employee
+            else:
+                return False
+        else:
+            return False
 
